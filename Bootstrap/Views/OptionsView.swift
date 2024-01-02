@@ -10,6 +10,7 @@ import SwiftUI
 struct OptionsView: View {
     @Binding var showOptions: Bool
     @Binding var openSSH: Bool
+    @State private var showAppView = false
     
     var body: some View {
         ZStack {
@@ -29,12 +30,14 @@ struct OptionsView: View {
                         }
                     } label: {
                         Image(systemName: "xmark.circle")
+                            .resizable()
                             .foregroundColor(.red)
+                            .frame(width: 25, height: 25)
                     }
                 }
                 
                 ScrollView {
-                    VStack(spacing: 20) {
+                    VStack {
                         VStack {
                             Text("选项")
                                 .foregroundColor(Color(UIColor.label))
@@ -44,14 +47,12 @@ struct OptionsView: View {
                             
                             Divider()
                             
-                            VStack {
-                                Toggle(isOn: $openSSH, label: {
-                                    Label(
-                                        title: { Text("启用SSH") },
-                                        icon: { Image(systemName: "terminal") }
-                                    )
-                                })
-                            }
+                            Toggle(isOn: $openSSH, label: {
+                                Label(
+                                    title: { Text("启用 SSH") },
+                                    icon: { Image(systemName: "terminal") }
+                                )
+                            })
                         }
                         .frame(width: 253)
                         .padding(20)
@@ -62,27 +63,35 @@ struct OptionsView: View {
                         }
                         
                         VStack {
-                            HStack {
-                                Text("注入插件")
-                                    .foregroundColor(Color(UIColor.label))
-                                    .bold()
-                                    .font(Font.system(size: 20))
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                                Spacer()
+                            Text("注入插件")
+                                .foregroundColor(Color(UIColor.label))
+                                .bold()
+                                .font(Font.system(size: 20))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            Divider()
+                            
+                            VStack(alignment: .leading, spacing: 12, content: {
+                                Button {
+                                    showAppView.toggle()
+                                } label: {
+                                    Label(
+                                        title: { Text("选项应用程序") },
+                                        icon: { Image(systemName: "app") }
+                                    )
+                                }
+                                .buttonStyle(DopamineButtonStyle())
                                 
                                 Button {
                                     rebuildappsFr()
                                 } label: {
-                                    Image(systemName: "arrow.clockwise")
+                                    Label(
+                                        title: { Text("重建应用程序") },
+                                        icon: { Image(systemName: "arrow.clockwise") }
+                                    )
                                 }
-                            }
-                            
-                            Divider()
-                            
-                            VStack {
-                                Text("选择应用程序")
-                            }
+                                .buttonStyle(DopamineButtonStyle())
+                            })
                         }
                         .frame(width: 253)
                         .padding(20)
@@ -93,8 +102,11 @@ struct OptionsView: View {
                         }
                     }
                 }
-                .frame(maxHeight: 550)
             }
+            .frame(maxHeight: 550)
+        }
+        .sheet(isPresented: $showAppView) {
+            AppViewControllerWrapper()
         }
     }
 }

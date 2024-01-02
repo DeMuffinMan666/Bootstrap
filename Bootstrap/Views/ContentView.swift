@@ -8,15 +8,7 @@
 import SwiftUI
 import FluidGradient
 
-@objc class SwiftUIViewWrapper: NSObject {
-    @objc static func createSwiftUIView() -> UIViewController {
-        let viewController = UIHostingController(rootView: ContentView())
-        return viewController
-    }
-}
-
-struct ContentView: View {
-    // init console base text
+struct BootstrapView: View {
     @State var LogItems: [String.SubSequence] = {
         return [""]
     }()
@@ -112,6 +104,7 @@ struct ContentView: View {
                                 .cornerRadius(20)
                                 .opacity(0.5)
                         }
+                        .disabled(!isSystemBootstrapped())
                         
                         Button {
                             respringFr()
@@ -127,6 +120,7 @@ struct ContentView: View {
                                 .cornerRadius(20)
                                 .opacity(0.5)
                         }
+                        .disabled(!isSystemBootstrapped())
                     }
                     
                     VStack {
