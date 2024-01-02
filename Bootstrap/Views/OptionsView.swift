@@ -63,7 +63,7 @@ struct OptionsView: View {
                         
                         VStack {
                             HStack {
-                                Text("应用程序启用")
+                                Text("注入插件")
                                     .foregroundColor(Color(UIColor.label))
                                     .bold()
                                     .font(Font.system(size: 20))
@@ -81,7 +81,7 @@ struct OptionsView: View {
                             Divider()
                             
                             VStack {
-                                Text("选择")
+                                Text("选择应用程序")
                             }
                         }
                         .frame(width: 253)
