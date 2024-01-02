@@ -82,7 +82,7 @@ struct ContentView: View {
                             unbootstrapFr()
                         } label: {
                             Label(
-                                title: { Text("未安装").bold() },
+                                title: { Text("卸载").bold() },
                                 icon: { Image(systemName: "trash") }
                             )
                             .padding(25)
