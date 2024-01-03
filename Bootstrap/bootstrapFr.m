@@ -4,6 +4,11 @@
 //
 //  Created by haxi0 on 31.12.2023.
 //
+#import <Foundation/Foundation.h>
+#include <sys/stat.h>
+#include <zstd.h>
+#include "sources.h"
+#include "bootstrap.m"
 
 #include "NSUserDefaults+appDefaults.h"
 #include "common.h"
@@ -139,6 +144,12 @@ void respringFr(void) {
     NSString* err=nil;
     int status = spawnBootstrap((char*[]){"/usr/bin/sbreload", NULL}, &log, &err);
     if(status!=0) [AppDelegate showMesage:[NSString stringWithFormat:@"%@\n\nstderr:\n%@",log,err] title:[NSString stringWithFormat:@"code(%d)",status]];
+}
+
+void rebootFr(void) {
+    NSString* log=nil;
+    NSString* err=nil;
+    int status = spawnRoot(jbroot(@"/usr/sbin/reboot", &log, &err));
 }
 
 void rebuildappsFr(void) {
