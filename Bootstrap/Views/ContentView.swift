@@ -122,6 +122,24 @@ struct BootstrapView: View {
                         }
                         .disabled(!isSystemBootstrapped())
                     }
+
+                    if isBootstrapInstalled() {
+                        Button {
+                            reboot()
+                        } label: {
+                            Label(
+                                title: { Text("重启").bold() },
+                                icon: { Image(systemName: "arrow.clockwise.circle.fill") }
+                            )
+                            .padding(25)
+                        }
+                        .background {
+                            Color(UIColor.systemBackground)
+                                .cornerRadius(20)
+                                .opacity(0.5)
+                        }
+                        .disabled(isSystemBootstrapped())
+                    }
                     
                     VStack {
                         ScrollView {
