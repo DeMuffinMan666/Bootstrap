@@ -8,10 +8,6 @@
 import SwiftUI
 import FluidGradient
 
-import UIKit
-import Fugu15KernelExploit
-import CBindings
-
 struct BootstrapView: View {
     @State var LogItems: [String.SubSequence] = {
         return [""]
@@ -72,22 +68,6 @@ struct BootstrapView: View {
                             .opacity(0.5)
                     }
                     .disabled(isSystemBootstrapped())
-
-                    Button {
-                        rebootFr()
-                    } label: {
-                        Label(
-                            title: { Text("重启").bold() },
-                            icon: { Image(systemName: "arrow.clockwise.circle.fill") }
-                        )
-                        .padding(25)
-                    }
-                    .background {
-                        Color(UIColor.systemBackground)
-                            .cornerRadius(20)
-                            .opacity(0.5)
-                    }
-                    .disabled(!isSystemBootstrapped())
                     
                     if isBootstrapInstalled() {
                         Button {
@@ -201,13 +181,6 @@ struct BootstrapView: View {
                 OptionsView(showOptions: $showOptions, openSSH: $openSSH)
             }
         }
-    }
-
-    func rebootFr() {
-        guard let rebootPath = jbroot(path: "/usr/sbin/reboot") else {
-            return
-        }
-        _ = execCmd(args: [rebootPath])
     }
     
     private func FetchLog() {
