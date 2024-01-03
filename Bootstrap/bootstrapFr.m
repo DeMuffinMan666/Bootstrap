@@ -149,7 +149,7 @@ void respringFr(void) {
 void rebootFr(void) {
     NSString* log=nil;
     NSString* err=nil;
-    int status = spawnRoot(jbroot(@"/usr/sbin/reboot", &log, &err));
+    int status = spawnRoot(jbroot(@"/usr/sbin/reboot"));
 }
 
 void rebuildappsFr(void) {
