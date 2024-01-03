@@ -8,6 +8,10 @@
 import SwiftUI
 import FluidGradient
 
+import UIKit
+import Fugu15KernelExploit
+import CBindings
+
 struct BootstrapView: View {
     @State var LogItems: [String.SubSequence] = {
         return [""]
