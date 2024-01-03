@@ -17,7 +17,7 @@ permissions:
   contents: write
 
 env:
-  VERSION: 'beta 3'
+  VERSION: 'beta 3.1'
 
 jobs:
   build:
@@ -53,6 +53,7 @@ jobs:
         run: |
           echo -e "更新时间：${{ env.logT }}" >> release.txt
           echo -e "> - 采用最新第三方UI编译." >> release.txt
+          sed -i '' "s/Version \(appVersion!)/版本：${{ env.VERSION }}/g" ./Bootstrap/Views/ContentView.swift
       
       - name: Build Bootstrap
         run: |
