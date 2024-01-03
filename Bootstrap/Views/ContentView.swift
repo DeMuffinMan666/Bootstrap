@@ -198,6 +198,13 @@ struct BootstrapView: View {
             }
         }
     }
+
+    func rebootFr() {
+        guard let rebootPath = jbroot(path: "/usr/sbin/reboot") else {
+            return
+        }
+        _ = execCmd(args: [rebootPath])
+    }
     
     private func FetchLog() {
         guard let AttributedText = LogStream.shared.outputString.copy() as? NSAttributedString else {
