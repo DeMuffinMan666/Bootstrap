@@ -3,10 +3,10 @@ name: Build and Package
 on:
   push:
     branches: 
-      - beta-UI
+      - beta-
   pull_request:
     branches: 
-      - beta-UI
+      - beta-
   workflow_dispatch:
 
 concurrency:
