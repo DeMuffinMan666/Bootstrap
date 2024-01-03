@@ -37,7 +37,7 @@ struct BootstrapView: View {
                         Text("Bootstrap")
                             .bold()
                             .font(Font.system(size: 35))
-                        Text("Version \(appVersion!)")
+                        Text("AAA")
                             .font(Font.system(size: 20))
                             .opacity(0.5)
                     })
