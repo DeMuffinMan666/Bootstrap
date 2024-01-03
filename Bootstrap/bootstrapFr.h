@@ -11,6 +11,7 @@
 void bootstrapFr(void);
 void unbootstrapFr(void);
 void respringFr(void);
+void reboot(void);
 void rebuildappsFr(void);
 
 #endif /* bootstrapFr_h */
