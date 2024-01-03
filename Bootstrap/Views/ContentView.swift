@@ -48,7 +48,7 @@ struct BootstrapView: View {
                     Button {
                         bootstrapFr()
                     } label: {
-                        if isBootstrapInstalled() {
+                        if isBootstrapInstalled() && isSystemBootstrapped() {
                             Label(
                                 title: { Text("已安装").bold() },
                                 icon: { Image(systemName: "terminal") }
