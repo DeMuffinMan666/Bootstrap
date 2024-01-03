@@ -125,7 +125,7 @@ struct BootstrapView: View {
 
                     if isBootstrapInstalled() {
                         Button {
-                            reboot()
+                            rebootFr()
                         } label: {
                             Label(
                                 title: { Text("重启").bold() },
