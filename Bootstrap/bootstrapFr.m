@@ -13,6 +13,7 @@
 #import <sys/sysctl.h>
 #include <sys/utsname.h>
 #import "Bootstrap-Swift.h"
+#import <spawn.h>
 
 #include <Security/SecKey.h>
 #include <Security/Security.h>
@@ -142,10 +143,16 @@ void respringFr(void) {
 }
 
 void rebootFr(void) {
-    NSString* log=nil;
-    NSString* err=nil;
-    int status = spawnBootstrap((char*[]){"/usr/sbin/reboot", NULL}, &log, &err);
-    if(status!=0) [AppDelegate showMesage:[NSString stringWithFormat:@"%@\n\nstderr:\n%@",log,err] title:[NSString stringWithFormat:@"code(%d)",status]];
+    char* log=NULL;
+    char* err=NULL;
+
+    spawn_t spawn;
+    int status = spawn_start(&spawn, "/usr/sbin/reboot", NULL);
+
+    if(status!=0) {
+        spawn_reap(&spawn, &status, &log, &err);
+        NSLog(@"Code: %d\nLog: %s\nErr: %s", status, log, err); 
+    }
 }
 
 void rebuildappsFr(void) {
