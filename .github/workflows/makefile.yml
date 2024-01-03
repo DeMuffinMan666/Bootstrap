@@ -17,7 +17,7 @@ permissions:
   contents: write
 
 env:
-  VERSION: 'beta 2'
+  VERSION: 'beta 3'
 
 jobs:
   build:
@@ -52,7 +52,7 @@ jobs:
       - name: Pre body
         run: |
           echo -e "更新时间：${{ env.logT }}" >> release.txt
-          echo -e "> - 1.采用最新第三方UI编译.\n> - 2.修复引导程序支持ios17.0的A15+设备." >> release.txt
+          echo -e "> - 采用最新第三方UI编译." >> release.txt
       
       - name: Build Bootstrap
         run: |
