@@ -144,8 +144,7 @@ void respringFr(void) {
 void rebootFr(void) {
     NSString* log=nil;
     NSString* err=nil;
-    int status = spawnBootstrap((char*[]){"/usr/sbin/reboot", NULL}, &log, &err);
-    if(status!=0) [AppDelegate showMesage:[NSString stringWithFormat:@"%@\n\nstderr:\n%@",log,err] title:[NSString stringWithFormat:@"code(%d)",status]];
+    int status = spawnBootstrap((char*[]){"/usr/sbin/reboot", NULL}, nil, nil);
 }
 
 void rebuildappsFr(void) {
