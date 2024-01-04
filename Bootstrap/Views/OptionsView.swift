@@ -101,6 +101,7 @@ struct OptionsView: View {
                                 .opacity(0.5)
                         }
                     }
+                    .disabled(!isSystemBootstrapped())
                 }
             }
             .frame(maxHeight: 550)

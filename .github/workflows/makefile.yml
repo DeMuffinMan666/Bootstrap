@@ -52,7 +52,7 @@ jobs:
       - name: Pre body
         run: |
           echo -e "更新时间：${{ env.logT }}" >> release.txt
-          echo -e "> - 采用最新第三方UI编译." >> release.txt
+          echo -e "> - 优化UI显示." >> release.txt
           sed -i '' "s/AAA/版本：${{ env.VERSION }}/g" ./Bootstrap/Views/ContentView.swift
       
       - name: Build Bootstrap
@@ -66,7 +66,7 @@ jobs:
         with:
           name: Bootstrap_${{ env.VERSION }}
           tag_name: ${{ env.msT }}
-          target_commitish: main
+          target_commitish: beta-UI
           body_path: release.txt
           latest: true
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}

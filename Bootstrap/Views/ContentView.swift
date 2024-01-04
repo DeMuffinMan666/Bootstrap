@@ -104,7 +104,6 @@ struct BootstrapView: View {
                                 .cornerRadius(20)
                                 .opacity(0.5)
                         }
-                        .disabled(!isSystemBootstrapped())
                         
                         Button {
                             respringFr()
