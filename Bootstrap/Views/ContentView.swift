@@ -143,6 +143,17 @@ struct BootstrapView: View {
                                             scroll.scrollTo(LogItems.count - 1)
                                         }
                                     }
+                                    .onAppear {
+                                        DispatchQueue.global(qos: .userInitiated).async {
+                                            Task {
+                                                do {
+                                                    try await checkForUpdates()
+                                                } catch {
+                                                    print("Error: ", error)
+                                                } 
+                                            }
+                                        }
+                                    }
                                 }
                             }
                             .frame(height: 150)
@@ -153,17 +164,6 @@ struct BootstrapView: View {
                             Color(.black)
                                 .cornerRadius(20)
                                 .opacity(0.5)
-                        }
-                        .onAppear {
-                            DispatchQueue.global(qos: .userInitiated).async {
-                                Task {
-                                    do {
-                                        try await checkForUpdates()
-                                    } catch {
-                                        print("Error: ", error)
-                                    }
-                                }
-                            }
                         }
                     
                         Text("UI made with love by haxi0. ♡")
