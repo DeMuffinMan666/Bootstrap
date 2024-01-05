@@ -8,6 +8,7 @@
 import SwiftUI
 import FluidGradient
 import Foundation
+
 #if os(iOS)
 import UIKit
 #else
@@ -177,7 +178,22 @@ struct BootstrapView: View {
                                 .font(Font.system(size: 15))
                                 .opacity(0.5)
                             }
-                        }    
+                        }
+
+                        Button {
+                            checkForUpdates()
+                        } label: {
+                            Label(
+                                title: { Text("Uninstall") },
+                                icon: { Image(systemName: "trash") }
+                            )
+                            .padding(20)
+                        }
+                        .background {
+                            Color(UIColor.systemBackground)
+                                .cornerRadius(20)
+                                .opacity(0.5)
+                        }
                     }
                 }
 
