@@ -17,6 +17,8 @@ struct BootstrapView: View {
     @State var openSSH = false
     @State var showOptions = false
     @State var showCredits = false
+    @State var updateAvailable = false
+    @State var versionRegex = try? NSRegularExpression(pattern: "\\d+\\.\\d+\\.\\d+")
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
     
     var body: some View {
@@ -152,23 +154,36 @@ struct BootstrapView: View {
                                 .cornerRadius(20)
                                 .opacity(0.5)
                         }
+                        .onAppear {
+                            DispatchQueue.global(qos: .userInitiated).async {
+                                Task {
+                                    do {
+                                        try await checkForUpdates()
+                                    } catch {
+                                        print("Error: ", error)
+                                    }
+                                }
+                            }
+                        }
                     
                         Text("UI made with love by haxi0. ♡")
                             .font(Font.system(size: 13))
                             .opacity(0.5)
 
-                        Button {
-                            let link = "https://github.com/wwg135/Bootstrap/releases"
-                            if let url = URL(string: link) {
-                                UIApplication.shared.open(url)
+                        if updateAvailable {
+                            Button {
+                                let link = "https://github.com/wwg135/Bootstrap/releases"
+                                if let url = URL(string: link) {
+                                    UIApplication.shared.open(url)
+                                }
+                            } label: {
+                                Label(
+                                    title: { Text("Button_Update_Available") },
+                                    icon: { Image(systemName: "arrow.down.circle") }
+                                )
+                                .font(Font.system(size: 15))
+                                .opacity(0.5)
                             }
-                        } label: {
-                            Label(
-                                title: { Text("Button_Update_Available") },
-                                icon: { Image(systemName: "arrow.down.circle") }
-                            )
-                            .font(Font.system(size: 15))
-                            .opacity(0.5)
                         }    
                     }
                 }
@@ -196,6 +211,31 @@ struct BootstrapView: View {
                     OptionsView(showOptions: $showOptions, openSSH: $openSSH)
                 }
             }
+        }
+    }
+
+    func checkForUpdates() async throws {
+        let currentAppVersion = "AAB"      
+        let releasesURL = URL(string: "https://api.github.com/repos/wwg135/Bootstrap/releases")!
+        let releasesRequest = URLRequest(url: releasesURL)
+        let (releasesData, _) = try await URLSession.shared.data(for: releasesRequest)
+        guard let releasesJSON = try JSONSerialization.jsonObject(with: releasesData, options: []) as? [[String: Any]] else {
+            return
+        }
+
+        if releasesJSON.first(where: {
+            if let version = $0["name"] as? String, versionRegex?.firstMatch(in: version, options: [], range: NSRange(location: 0, length: version.utf16.count)) != nil {   
+                if let latestName = $0["tag_name"] as? String, let latestVersion = $0["name"] as? String {
+                    if latestName.count == 10 && currentAppVersion.count == 10 {
+                        if latestName > currentAppVersion && versionRegex?.firstMatch(in: latestVersion, options: [], range: NSRange(location: 0, length: latestVersion.utf16.count)) != nil {
+                            return true  
+                        }
+                    }
+                }
+            }
+            return false
+        }) != nil {
+            updateAvailable = true
         }
     }
     
