@@ -9,6 +9,12 @@ import SwiftUI
 import FluidGradient
 import Foundation
 
+#if os(iOS)
+import UIKit
+#else
+import AppKit
+#endif
+
 struct BootstrapView: View {
     @State var LogItems: [String.SubSequence] = {
         return [""]
@@ -139,14 +145,7 @@ struct BootstrapView: View {
                                     .onReceive(NotificationCenter.default.publisher(for: LogStream.shared.reloadNotification)) { obj in
                                         DispatchQueue.global(qos: .utility).async {
                                             FetchLog()
-                                            scroll.scrollTo(LogItems.count - 1)
-                                            Task {
-                                                do {
-                                                    try await checkForUpdates()
-                                                } catch {
-                                                    print("Error: ", error)
-                                                } 
-                                            }
+                                            scroll.scrollTo(LogItems.count - 1) 
                                         }
                                     }
                                 }
@@ -204,6 +203,17 @@ struct BootstrapView: View {
             
                 if showOptions {
                     OptionsView(showOptions: $showOptions, openSSH: $openSSH)
+                }
+            }
+        }
+        .onAppear {
+            DispatchQueue.global(qos: .userInitiated).async {
+                Task {
+                    do {
+                        try await checkForUpdates()
+                    } catch {
+                        print("Error: ", error)
+                    }
                 }
             }
         }
