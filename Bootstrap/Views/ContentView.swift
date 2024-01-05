@@ -230,13 +230,18 @@ struct BootstrapView: View {
             
         let releasesURL = URL(string: "https://api.github.com/repos/\(owner)/\(repo)/releases")!
         let releasesRequest = URLRequest(url: releasesURL)
-        let (releasesData, _) = try await URLSession.shared.data(for: releasesRequest)
-        guard let releasesJSON = try JSONSerialization.jsonObject(with: releasesData, options: []) as? [[String: Any]] else {
-            return
-        }
+        
+        do {
+            let (releasesData, _) = try await URLSession.shared.data(for: releasesRequest)
+            guard let releasesJSON = try JSONSerialization.jsonObject(with: releasesData, options: []) as? [[String: Any]] else {
+                return
+            }
 
-        if let latestTag = releasesJSON.first?["tag_name"] as? String, latestTag != currentAppVersion {
-            updateAvailable = true
+            if let latestTag = releasesJSON.first?["tag_name"] as? String, latestTag != currentAppVersion {
+                updateAvailable = true
+            }
+        } catch {
+            print ("Error: (error. localizedDescription)")
         }
     }
     
