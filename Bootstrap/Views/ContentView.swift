@@ -184,8 +184,8 @@ struct BootstrapView: View {
                             checkForUpdates()
                         } label: {
                             Label(
-                                title: { Text("Uninstall") },
-                                icon: { Image(systemName: "trash") }
+                                title: { Text("Button_Check_Updates") },
+                                icon: { Image(systemName: "arrow.down.circle") }
                             )
                             .padding(20)
                         }
@@ -221,20 +221,9 @@ struct BootstrapView: View {
                 }
             }
         }
-        .onAppear {
-            DispatchQueue.global(qos: .userInitiated).async {
-                Task {
-                    do {
-                        try await checkForUpdates()
-                    } catch {
-                        print("Error: ", error)
-                    }
-                }
-            }
-        }
     }
 
-    func checkForUpdates() async throws {
+    func checkForUpdates() {
         let currentAppVersion = "AAB"
         let owner = "wwg135"
         let repo = "Bootstrap"
