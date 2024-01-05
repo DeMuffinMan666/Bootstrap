@@ -221,7 +221,7 @@ struct BootstrapView: View {
 
     func checkForUpdates() async throws {
         let currentAppVersion = "AAB"
-        let owner = "opa334"
+        let owner = "wwg135"
         let repo = "Bootstrap"
             
         let releasesURL = URL(string: "https://api.github.com/repos/\(owner)/\(repo)/releases")!
