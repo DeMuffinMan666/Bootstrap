@@ -20,10 +20,10 @@ struct BootstrapView: View {
         return [""]
     }()
     
-    @State var openSSH = false
-    @State var showOptions = false
-    @State var showCredits = false
-    @State var updateAvailable = false
+    @State private var openSSH = false
+    @State private var showOptions = false
+    @State private var showCredits = false
+    @State private var updateAvailable = false
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
     
     var body: some View {
@@ -223,7 +223,7 @@ struct BootstrapView: View {
         }
     }
 
-    func checkForUpdates() {
+    private func checkForUpdates() async {
         let currentAppVersion = "AAB"
         let owner = "wwg135"
         let repo = "Bootstrap"
