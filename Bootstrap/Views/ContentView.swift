@@ -223,26 +223,28 @@ struct BootstrapView: View {
         }
     }
 
-    private func checkForUpdates() async {
+    private func checkForUpdates() {
         let currentAppVersion = "AAB"
         let owner = "wwg135"
         let repo = "Bootstrap"
-            
+        
         let releasesURL = URL(string: "https://api.github.com/repos/\(owner)/\(repo)/releases")!
         let releasesRequest = URLRequest(url: releasesURL)
+    
+        URLSession.shared.dataTask(with: releasesRequest) { data, response, error in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                return
+            }
         
-        do {
-            let (releasesData, _) = try await URLSession.shared.data(for: releasesRequest)
-            guard let releasesJSON = try JSONSerialization.jsonObject(with: releasesData, options: []) as? [[String: Any]] else {
+            guard let releasesData = data, let releasesJSON = try? JSONSerialization.jsonObject(with: releasesData, options: []) as? [[String: Any]] else {
                 return
             }
 
             if let latestTag = releasesJSON.first?["tag_name"] as? String, latestTag != currentAppVersion {
                 updateAvailable = true
             }
-        } catch {
-            print ("Error: (error. localizedDescription)")
-        }
+        }.resume()
     }
     
     private func FetchLog() {
