@@ -8,7 +8,6 @@
 import SwiftUI
 import FluidGradient
 import Foundation
-
 #if os(iOS)
 import UIKit
 #else
