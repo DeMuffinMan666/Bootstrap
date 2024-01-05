@@ -140,10 +140,6 @@ struct BootstrapView: View {
                                         DispatchQueue.global(qos: .utility).async {
                                             FetchLog()
                                             scroll.scrollTo(LogItems.count - 1)
-                                        }
-                                    }
-                                    .onAppear {
-                                        DispatchQueue.global(qos: .userInitiated).async {
                                             Task {
                                                 do {
                                                     try await checkForUpdates()
